@@ -1,38 +1,45 @@
-import React, { useEffect, useState } from "react";
-import { useRouter } from "next/router";
-import { useQuery } from "react-query";
-import Header from "@/components/Header";
-import Link from "next/link";
+import React from "react";
 import Head from "next/head";
+import { useRouter } from "next/router";
+import { useQuery } from "react-query";import Navbar from "@/components/Navbar";
+import Link from "next/link";
 
-const Detail = () => {
+const Keyword = () => {
   const key = useRouter().query.keyword;
-  // fetch data from API
-  const jikanAPI = `https://api.jikan.moe/v4/anime?q=${key}`;
 
-  const { isLoading, isError, isSuccess, data } = useQuery(["anime", key], () =>
-    fetch(jikanAPI).then((res) => res.json())
+  const jikanAPIV4 = `https://api.jikan.moe/v4/anime?q=${key}`;
+
+  const { isLoading, error, data } = useQuery(["anime",key], () =>
+    fetch(jikanAPIV4).then((res) => res.json())
   );
 
   if (isLoading)
     return (
-      <div className="h-screen">
-        <div class="flex items-center justify-center h-screen">
-          <div
-            class="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
-            role="status"
-          >
-            <span class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
-              Loading...
-            </span>
-          </div>
+      <div className="flex items-center justify-center h-screen">
+        <div
+          className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+          role="status"
+        >
+          <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+            Loading...
+          </span>
         </div>
       </div>
     );
-  if (isError) return <h1>Error...</h1>;
-
-  console.log(data.data);
-  // if (!data) return <h1>Loading...</h1>;
+  if (!data.data)
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div
+          className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+          role="status"
+        >
+          <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+            Loading...
+          </span>
+        </div>
+      </div>
+    );
+  if (error) return "An error has occurred: " + error.message;
 
   return (
     <div className="bg-gradient-to-br from-[#233458] to-[#111827]">
@@ -40,7 +47,7 @@ const Detail = () => {
         <title>Result of {key}</title>
       </Head>
       {/* import header component */}
-      <Header />
+      <Navbar />
       {/* body */}
       <center>
         {/* hero section */}
@@ -89,7 +96,7 @@ const Detail = () => {
                   >
                     <p className="text-sm font-bold  flex gap-2">
                       View Details{" "}
-                      <img src="/assets/ico/right-arr.png" alt="" />
+                      <img src="/assets/icons/right-arr.png" alt="" />
                     </p>
                   </Link>
                 </div>
@@ -106,4 +113,4 @@ const Detail = () => {
   );
 };
 
-export default Detail;
+export default Keyword;
