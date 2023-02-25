@@ -1,15 +1,18 @@
 import React from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useQuery } from "react-query";import Navbar from "@/components/Navbar";
+import { useQuery } from "react-query";
+import Navbar from "@/components/Navbar";
 import Link from "next/link";
 
 const Keyword = () => {
   const key = useRouter().query.keyword;
 
+  const router = useRouter();
+
   const jikanAPIV4 = `https://api.jikan.moe/v4/anime?q=${key}`;
 
-  const { isLoading, error, data } = useQuery(["anime",key], () =>
+  const { isLoading, error, data } = useQuery(["anime", key], () =>
     fetch(jikanAPIV4).then((res) => res.json())
   );
 
@@ -51,7 +54,7 @@ const Keyword = () => {
       {/* body */}
       <center>
         {/* hero section */}
-        <main className="flex flex-col px-24 py-3 min-h-screen gap-6">
+        <main className="flex flex-col px-10 md:px-24 py-3 min-h-screen gap-6">
           <p className="text-white text-left py-2">
             Your Search Result for{" "}
             <span className="font-bold underline underline-offset-8 decoration-4">
@@ -68,7 +71,7 @@ const Keyword = () => {
                   alt="Sunset in the mountains"
                 />
                 {/* anime category label limit to 2*/}
-                <div class="px-6 pt-4 pb-2 text-left">
+                <div class="px-6 pt-4 pb-2 text-left hidden md:block">
                   {anime.genres.slice(0, 2).map((genre) => (
                     <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
                       {genre.name}
@@ -76,17 +79,20 @@ const Keyword = () => {
                   ))}
                 </div>
 
-                <div class="px-6 pb-6 text-left">
-                  <div class="font-bold text-md mb-2 text-orange-600">
+                <div class="px-6 pb-6 text-left mt-2">
+                  <p
+                    class="font-bold text-md mb-2 text-orange-600 hover:cursor-pointer"
+                    onClick={(e) => router.push(`/detail/${anime.mal_id}`)}
+                  >
                     {anime.title?.substring(0, 18)}
-                  </div>
+                  </p>
                   <p class="text-gray-700 text-sm text-justify">
                     {/* trim synopsis */}
-                    {anime.synopsis?.substring(0, 90)}...
+                    {anime.synopsis?.substring(0, 50)}...
                   </p>
                 </div>
                 <hr className="pb-2 w-60 border-t-gray-300" />
-                <div class="px-6 pb-6 text-left flex flex-row justify-between ">
+                <div class="px-6 pb-6 text-left flex md:flex-row flex-col justify-between ">
                   <p className="text-gray-500 text-sm font-bold">
                     {anime.duration}
                   </p>
@@ -96,7 +102,11 @@ const Keyword = () => {
                   >
                     <p className="text-sm font-bold  flex gap-2">
                       View Details{" "}
-                      <img src="/assets/icons/right-arr.png" alt="" />
+                      <img
+                        src="/assets/icons/right-arr.png"
+                        className="hidden md:block"
+                        alt=""
+                      />
                     </p>
                   </Link>
                 </div>
