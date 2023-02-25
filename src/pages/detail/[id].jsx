@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 import Header from "@/components/Header";
 import Link from "next/link";
+import Head from "next/head";
 
 const Detail = () => {
   const id = useRouter().query.id;
@@ -35,6 +36,9 @@ const Detail = () => {
 
   return (
     <div className="bg-gradient-to-br from-[#233458] to-[#111827]">
+        <Head> 
+            <title>{data.data.title}</title>
+        </Head>
       {/* import header component */}
       <Header />
       {/* body */}
