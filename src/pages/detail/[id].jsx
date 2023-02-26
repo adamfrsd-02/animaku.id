@@ -4,6 +4,7 @@ import { useQuery } from "react-query";
 import Header from "@/components/Header";
 import Link from "next/link";
 import Head from "next/head";
+import Navbar from "@/components/Navbar";
 
 const Detail = () => {
   const id = useRouter().query.id;
@@ -36,19 +37,26 @@ const Detail = () => {
 
   return (
     <div className="bg-gradient-to-br from-[#233458] to-[#111827]">
-        <Head> 
-            <title>{data.data.title}</title>
-        </Head>
+      <Head>
+        <title>{data.data.title}</title>
+      </Head>
       {/* import header component */}
-      <Header />
+      <Navbar />
       {/* body */}
       <center>
         {/* hero section */}
-        <main className="flex flex-row px-24 py-3 min-h-screen gap-6">
+        <main className="flex flex-col md:flex-row px-10 md:w-1/4 justify-center md:py-4  py-3 min-h-screen gap-6">
           <div className="left-side flex flex-col gap-5">
-            <img src={data.data.images.jpg.image_url} alt="" className="" />
-            <Link href="/" className="bg-gray-700">
-              <p className="text-white text-center py-2">Trailer</p>
+            <h1 className="text-white text-4xl font-bold text-center">
+              {data.data.title}
+            </h1>
+            <img
+              src={data.data.images.jpg.image_url}
+              alt=""
+              className="rounded-lg"
+            />
+            <Link href="/" className="bg-gray-700 rounded-lg py-2">
+              <p className="text-white text-center py-2">Watch The Trailer</p>
             </Link>
           </div>
         </main>
